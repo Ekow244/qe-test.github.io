@@ -53,16 +53,12 @@ async function assertSecondListItemValue(driver) {
   
 async function assertValueIsSix(driver) {
   try {
-   // Explicitly wait for the second list item's badge element to be present
+   // waiting for the second list item to be present
    const secondListItemBadgeElement = await driver.wait(
     until.elementLocated(By.xpath("//ul[@class='list-group']/li[2]/span[@class='badge badge-pill badge-primary']")),
-    10000 // Maximum wait time in milliseconds (adjust as needed)
+    10000 
   );
-
-  // Get the text (value) of the badge element
   const secondListItemBadgeValue = await secondListItemBadgeElement.getText();
-
-  // Assert that the badge value is 6
   assert.strictEqual(secondListItemBadgeValue, "6", "Second list item's badge value is not 6");
   console.log("Assertion passed: Second list item's badge value is 6");
 } catch (error) {
