@@ -19,10 +19,8 @@ async function clickVisibleButton(driver) {
   try {
     const testDiv = await driver.findElement(By.id("test-5-div"));
 
-    // Wait for the button to be visible
     await driver.wait(until.elementIsVisible(testDiv.findElement(By.id("test5-button"))));
 
-    // Click the button
     const button = await testDiv.findElement(By.id("test5-button"));
     await button.click();
 
@@ -34,14 +32,12 @@ async function clickVisibleButton(driver) {
 
 async function assertSuccessMessageDisplayed(driver) {
   try {
-    // Wait for the success message to be visible
     await driver.wait(until.elementIsVisible(driver.findElement(By.id("test5-alert"))));
 
-    // Get the content of the success message
+    //getting the content of the success message
     const successMessageElement = await driver.findElement(By.id("test5-alert"));
     const successMessage = await successMessageElement.getText();
 
-    // Assert that the success message contains the expected text
     assert.strictEqual(successMessage.trim(), "You clicked a button!", "Success message is not displayed.");
 
     console.log("Asserted that the success message is displayed.");
@@ -54,7 +50,6 @@ async function assertButtonIsDisabled(driver) {
   try {
     const button = await driver.findElement(By.id("test5-button"));
 
-    // Assert that the button is disabled
     assert.strictEqual(await button.isEnabled(), false, "Button is not disabled.");
 
     console.log("Asserted that the button is disabled.");

@@ -30,7 +30,7 @@ async function assertThreeItems(driver) {
 
 async function assertSecondListItemValue(driver) {
     try {
-      // Added a short delay
+      // Added a short delay because some elements were not loading quickly
       await driver.sleep(1000);
   
       
@@ -43,7 +43,7 @@ async function assertSecondListItemValue(driver) {
   
       const secondListItemValueElement = await listItems[1].findElement(By.xpath("."));
       const secondListItemValue = await secondListItemValueElement.getText();
-      assert.strictEqual(secondListItemValue.trim(), "List Item 2", "Second list item value is not 'List Item 2'");
+      assert.strictEqual(secondListItemValue.trim(), "List Item 2", "Second list item value is not 'List Item 2'"); // .trim() removes trailing white spaces from the actual value
   
       console.log("Asserted that the second list item's value is 'List Item 2'.");
     } catch (error) {
@@ -53,21 +53,21 @@ async function assertSecondListItemValue(driver) {
   
 async function assertValueIsSix(driver) {
   try {
-    const listGroup = await driver.findElement(By.xpath("//ul[@class='list-group']"));
-    const listItems = await listGroup.findElements(By.className("list-group-item"));
+   // Explicitly wait for the second list item's badge element to be present
+   const secondListItemBadgeElement = await driver.wait(
+    until.elementLocated(By.xpath("//ul[@class='list-group']/li[2]/span[@class='badge badge-pill badge-primary']")),
+    10000 // Maximum wait time in milliseconds (adjust as needed)
+  );
 
-    const secondListItem = listItems[1];
-    await driver.wait(until.elementLocated(By.xpath("//div[@class='container']//li[2]")), 10000);
+  // Get the text (value) of the badge element
+  const secondListItemBadgeValue = await secondListItemBadgeElement.getText();
 
-    const secondListItemBadgeElement = await secondListItem.findElement(By.xpath("//span[@class='badge badge-pill badge-primary' and contains(text(), '6')]"), 10000); //xpath expression ensures badge contains 6
-    const secondListItemBadgeValue = await secondListItemBadgeElement.getText();
-    assert.strictEqual(secondListItemBadgeValue.trim(), "6", "Second list item's badge value is not '6'");
-
-    console.log("Asserted that the second list item's badge value is '6'.");
-  } catch (error) {
+  // Assert that the badge value is 6
+  assert.strictEqual(secondListItemBadgeValue, "6", "Second list item's badge value is not 6");
+  console.log("Assertion passed: Second list item's badge value is 6");
+} catch (error) {
     console.error("Assertion failed:", error);
-  }
-}
+  }}
 
 
 
