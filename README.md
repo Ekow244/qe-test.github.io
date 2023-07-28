@@ -19,7 +19,7 @@ Clone this repository to your local machine using Git
 
 Navigate to the project's root directory:
 
-```cd qe-test``
+```cd qe-test```
 
 Install the project dependencies using npm:
 
